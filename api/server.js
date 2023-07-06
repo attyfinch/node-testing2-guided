@@ -20,12 +20,30 @@ server.get("/hobbits", (req, res) => {
     });
 });
 
-server.get("/hobbits/id", (req, res) => {
-  res.end()
+server.get("/hobbits/:id", (req, res) => {
+  const { id } = req.params
+  Hobbits.getById(id)
+    .then(hobbit => {
+      res.status(200).json(hobbit)
+    })
+    .catch(err => {
+      console.error(err)
+    })
 });
 
-server.post("/hobbits", (req, res) => {
-  res.end()
+server.post("/hobbits", async (req, res) => {
+
+res.status(201).json(await Hobbits.insert(req.body))
+
+  // const { name } = req.body;
+  // console.log(name)
+  // try {
+  //   const newHobbit = await Hobbits.insert(name)
+  //   res.status(201).json(newHobbit)
+  // } catch (err) {
+  //   console.error
+  // }
+
 });
 
 server.delete("/hobbits/:id", (req, res) => {
